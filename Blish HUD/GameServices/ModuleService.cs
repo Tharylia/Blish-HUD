@@ -328,7 +328,15 @@ namespace Blish_HUD {
         private readonly Dictionary<MenuItem, ModuleManager> _moduleMenus = new Dictionary<MenuItem, ModuleManager>();
 
         private IOrderedEnumerable<KeyValuePair<MenuItem, ModuleManager>> GetSortedMenuItems() {
-            return _moduleMenus.OrderBy(c => c.Value.Manifest.Name);
+            return _moduleMenus.OrderByDescending(c => c.Value.Enabled).ThenBy(c => c.Value.Manifest.Name);
+        }
+
+        internal void SortMenuItems() {
+            _rootModuleSettingsMenuItem.ClearChildren();
+
+            foreach (var menuItemPair in this.GetSortedMenuItems()) {
+                menuItemPair.Key.Parent = _rootModuleSettingsMenuItem;
+            }
         }
         
         private void RegisterModuleMenuInSettings(ModuleManager moduleManager) {
@@ -338,11 +346,7 @@ namespace Blish_HUD {
 
             _moduleMenus.Add(moduleMi, moduleManager);
 
-            _rootModuleSettingsMenuItem.ClearChildren();
-
-            foreach (var menuItemPair in this.GetSortedMenuItems()) {
-                menuItemPair.Key.Parent = _rootModuleSettingsMenuItem;
-            }
+            this.SortMenuItems();
         }
 
         private void UnregisterModuleMenuInSettings(ModuleManager moduleManager) {
