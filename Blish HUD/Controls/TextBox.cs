@@ -38,11 +38,17 @@ namespace Blish_HUD.Controls {
             set => SetProperty(ref _hideBackground, value);
         }
 
+        /// <summary>
+        /// <inheritdoc cref="TextInputBase._masked"/>
+        /// </summary>
         public bool Masked {
             get => _masked;
             set => SetProperty(ref _masked, value, true);
         }
 
+        /// <summary>
+        /// <inheritdoc cref="TextInputBase._maskingChar"/>
+        /// </summary>
         public char MaskingChar {
             get => _maskingChar;
             set => SetProperty(ref _maskingChar, value, true);
