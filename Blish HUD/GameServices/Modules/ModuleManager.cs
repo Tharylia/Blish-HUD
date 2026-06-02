@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using Blish_HUD.Content;
 
 namespace Blish_HUD.Modules {
@@ -24,14 +27,18 @@ namespace Blish_HUD.Modules {
             this.ModuleLoaded?.Invoke(this, e);
         }
 
-        private Assembly _moduleAssembly;
+        // private Assembly _moduleAssembly;
+
+        // private static ConcurrentDictionary<string,ModuleLoadContext> _loadContexts = new ConcurrentDictionary<string, ModuleLoadContext>();
+
+        private ModuleLoadContext? _loadContext;
         
         private bool _forceAllowDependency = false;
 
         /// <summary>
         /// Indicates that the modules assembly has been loaded into memory.
         /// </summary>
-        public bool AssemblyLoaded => _moduleAssembly != null;
+        public bool AssemblyLoaded => _loadContext != null;
         
         /// <summary>
         /// Used to indicate if a different version of the assembly has previously
@@ -65,9 +72,23 @@ namespace Blish_HUD.Modules {
             if (_dirtyNamespaces.Contains(this.Manifest.Namespace)) {
                 this.IsModuleAssemblyStateDirty = true;
             }
-
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
+            
+            // AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
+            // AppDomain.CurrentDomain..TypeResolve += CurrentDomainOnTypeResolve;
         }
+
+        // private Assembly CurrentDomainOnTypeResolve(object sender, ResolveEventArgs args) {
+        //     // Search all loaded module contexts
+        //     foreach (var ctx in _loadContexts.Values) {
+        //         foreach (var assembly in from assembly in ctx.Assemblies
+        //                                  let type = assembly.GetType(args.Name)
+        //                                  where type != null
+        //                                  select assembly) {
+        //             return assembly;
+        //         }
+        //     }
+        //     return null;
+        // }
 
         public bool TryEnable() {
             if (this.Enabled                                             // We're already enabled.
@@ -146,6 +167,14 @@ namespace Blish_HUD.Modules {
             GameService.Settings.Save();
 
             GameService.Module.SortMenuItems();
+
+            if (this._loadContext is not null) {
+                // _loadContexts.Remove(this._loadContext.Name, out _);
+                _loadContext.DependencyFound  -= LoadContextOnDependencyFound;
+                _loadContext.DependencyMissed -= LoadContextOnDependencyMissed;
+                this._loadContext.Unload();
+                this._loadContext = null;
+            }
         }
 
         public void DeleteModule() {
@@ -154,18 +183,18 @@ namespace Blish_HUD.Modules {
             this.DataReader.DeleteRoot();
         }
 
-        private Assembly LoadPackagedAssembly(string assemblyPath) {
+        private Assembly LoadPackagedAssembly(AssemblyLoadContext context, string assemblyPath) {
             string symbolsPath = assemblyPath.Replace(".dll", ".pdb");
 
-            byte[] assemblyData = this.DataReader.GetFileBytes(assemblyPath);
-            byte[] symbolData   = this.DataReader.GetFileBytes(symbolsPath) ?? new byte[0];
+            var assemblyData = this.DataReader.GetFileStream(assemblyPath);
+            var symbolData   = this.DataReader.GetFileStream(symbolsPath);
 
-            return Assembly.Load(assemblyData, symbolData);
+            return context.LoadFromStream(assemblyData, symbolData);
         }
 
-        private Assembly GetResourceAssembly(Assembly requestingAssembly, AssemblyName resourceDetails, string assemblyPath) {
+        private Assembly GetResourceAssembly(AssemblyLoadContext context, AssemblyName resourceDetails, string assemblyPath) {
             // Avoid loading resource assembly from wrong module
-            if (_moduleAssembly != requestingAssembly) return null;
+            // if (_moduleAssembly != requestingAssembly) return null;
 
             // English is default — ignore it
             if (!string.Equals(resourceDetails.CultureInfo.TwoLetterISOLanguageName, "en")) {
@@ -174,7 +203,7 @@ namespace Blish_HUD.Modules {
 
                 if (this.DataReader.FileExists(assemblyPath)) {
                     try {
-                        return LoadPackagedAssembly(assemblyPath);
+                        return LoadPackagedAssembly(context, assemblyPath);
                     } catch (Exception ex) {
                         Logger.Debug(ex, "Failed to load resource {dependency} for {module}.", resourceDetails.FullName, this.Manifest.GetDetailedName());
                     }
@@ -186,44 +215,78 @@ namespace Blish_HUD.Modules {
             return null;
         }
 
-        private Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args) {
-            if (this.Enabled || _forceAllowDependency) {
-                var assemblyDetails = new AssemblyName(args.Name);
-
-                string assemblyPath = $"{assemblyDetails.Name}.dll";
-
-                if (!Equals(assemblyDetails.CultureInfo, CultureInfo.InvariantCulture)) {
-                    return GetResourceAssembly(args.RequestingAssembly, assemblyDetails, assemblyPath);
-                }
-
-                if (!this.DataReader.FileExists(assemblyPath)) return null;
-
-                Logger.Debug("Requested dependency {dependency} ({assemblyName}) was found by module {module}.", args.Name, assemblyPath, this.Manifest.GetDetailedName());
-
-                try {
-                    return LoadPackagedAssembly(assemblyPath);
-                } catch (Exception ex) {
-                    Logger.Warn(ex, "Failed to load dependency {dependency} for {module}.", args.Name, this.Manifest.GetDetailedName());
-                }
-            }
-
-            return null;
-        }
+        // private Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args) {
+        //     if (this.Enabled || _forceAllowDependency) {
+        //         var assemblyDetails = new AssemblyName(args.Name);
+        //
+        //         string assemblyPath = $"{assemblyDetails.Name}.dll";
+        //
+        //         if (!Equals(assemblyDetails.CultureInfo, CultureInfo.InvariantCulture)) {
+        //             return GetResourceAssembly(args.RequestingAssembly, assemblyDetails, assemblyPath);
+        //         }
+        //
+        //         if (!this.DataReader.FileExists(assemblyPath)) return null;
+        //
+        //         Logger.Debug("Requested dependency {dependency} ({assemblyName}) was found by module {module}.", args.Name, assemblyPath, this.Manifest.GetDetailedName());
+        //
+        //         try {
+        //             return LoadPackagedAssembly(assemblyPath);
+        //         } catch (Exception ex) {
+        //             Logger.Warn(ex, "Failed to load dependency {dependency} for {module}.", args.Name, this.Manifest.GetDetailedName());
+        //         }
+        //     }
+        //
+        //     return null;
+        // }
 
         private void ComposeModuleFromFileSystemReader(string dllName, ModuleParameters parameters) {
-            if (_moduleAssembly == null) {
+            if (_loadContext == null) {
                 try {
                     if (!this.DataReader.FileExists(dllName)) {
                         Logger.Warn("Module {module} does not contain assembly DLL {dll}", this.Manifest.GetDetailedName(), dllName);
                         return;
                     }
+                    
+                    var dependencies = this.DataReader
+                        .GetAllFiles()
+                        .Where(f => f != this.Manifest.Package && f.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+                        .ToDictionary(Path.GetFileName,
+                                      f => this.DataReader.GetFileBytes(f),
+                                      StringComparer.OrdinalIgnoreCase);
+                    
+                    // dependencies.Add(Path.GetFileName(typeof(BlishHud).Assembly.Location), File.ReadAllBytes(typeof(BlishHud).Assembly.Location));
 
-                    _moduleAssembly = LoadPackagedAssembly(dllName);
+                    _loadContext                 =  new ModuleLoadContext(parameters.Manifest.Namespace, dependencies);
+                    _loadContext.DependencyFound += LoadContextOnDependencyFound;
+                    _loadContext.DependencyMissed += LoadContextOnDependencyMissed;
+                    Logger.Info("Creating module load context {name}", _loadContext.Name);
+                    var moduleAssembly              =  LoadPackagedAssembly(_loadContext, dllName);
 
-                    if (_moduleAssembly == null) {
+                    if (moduleAssembly == null) {
                         Logger.Warn("Module {module} failed to load assembly DLL {dll}.", this.Manifest.GetDetailedName(), dllName);
                         return;
                     }
+                    
+                    var catalog   = new AssemblyCatalog(moduleAssembly);
+                    var container = new CompositionContainer(catalog);
+
+                    container.ComposeExportedValue("ModuleParameters", parameters);
+
+                    _forceAllowDependency = true;
+
+                    try {
+                        container.SatisfyImportsOnce(this);
+                    } catch (CompositionException ex) {
+                        Logger.Warn(ex, "Module {module} failed to be composed.", this.Manifest.GetDetailedName());
+                    } catch (FileNotFoundException ex) {
+                        Logger.Warn(ex, "Module {module} failed to load a dependency.", this.Manifest.GetDetailedName());
+                    } catch (ReflectionTypeLoadException ex) {
+                        Logger.Warn(ex, "Module {module} failed to load because it depended on something not available in this version.  Ensure you are using the correct module and Blish HUD versions.", this.Manifest.GetDetailedName());
+                    }
+
+                    _forceAllowDependency = false;
+                    
+                    // _ = _loadContexts.TryAdd(this._loadContext.Name, _loadContext);
                 } catch (ReflectionTypeLoadException ex) {
                     Logger.Warn(ex, "Module {module} failed to load due to a type exception. Ensure that you are using the correct version of the Module", this.Manifest.GetDetailedName());
                     return;
@@ -235,25 +298,36 @@ namespace Blish_HUD.Modules {
                     return;
                 }
             }
+        }
 
-            var catalog   = new AssemblyCatalog(_moduleAssembly);
-            var container = new CompositionContainer(catalog);
+        private void LoadContextOnDependencyMissed(object sender, AssemblyName assemblyName) {
+            Logger.Debug("Requested dependency {dependency} was not found inside module {module} and will be searched in default context.", assemblyName.Name, this.Manifest.GetDetailedName());
+        }
 
-            container.ComposeExportedValue("ModuleParameters", parameters);
+        private void LoadContextOnDependencyFound(object sender, AssemblyName assemblyName) {
+            Logger.Debug("Requested dependency {dependency} was found inside module {module}.", assemblyName.Name, this.Manifest.GetDetailedName());
+        }
 
-            _forceAllowDependency = true;
+        private Assembly LoadContextOnResolving(AssemblyLoadContext context, AssemblyName assemblyName) {
+            if (this.Enabled || _forceAllowDependency) {
+                string assemblyPath = $"{assemblyName.Name}.dll";
 
-            try {
-                container.SatisfyImportsOnce(this);
-            } catch (CompositionException ex) {
-                Logger.Warn(ex, "Module {module} failed to be composed.", this.Manifest.GetDetailedName());
-            } catch (FileNotFoundException ex) {
-                Logger.Warn(ex, "Module {module} failed to load a dependency.", this.Manifest.GetDetailedName());
-            } catch (ReflectionTypeLoadException ex) {
-                Logger.Warn(ex, "Module {module} failed to load because it depended on something not available in this version.  Ensure you are using the correct module and Blish HUD versions.", this.Manifest.GetDetailedName());
+                if (!Equals(assemblyName.CultureInfo, CultureInfo.InvariantCulture)) {
+                    return GetResourceAssembly(context, assemblyName, assemblyPath);
+                }
+
+                if (!this.DataReader.FileExists(assemblyPath)) return null;
+
+                Logger.Debug("Requested dependency {dependency} ({assemblyName}) was found by module {module}.", assemblyName.Name, assemblyPath, this.Manifest.GetDetailedName());
+
+                try {
+                    return LoadPackagedAssembly(context, assemblyPath);
+                } catch (Exception ex) {
+                    Logger.Warn(ex, "Failed to load dependency {dependency} for {module}.", assemblyName.Name, this.Manifest.GetDetailedName());
+                }
             }
 
-            _forceAllowDependency = false;
+            return null;
         }
 
         public void Dispose() {
@@ -266,7 +340,7 @@ namespace Blish_HUD.Modules {
 
             this.ModuleLoaded = null;
 
-            _moduleAssembly = null;
+            // _moduleAssembly = null;
 
             this.DataReader?.Dispose();
         }

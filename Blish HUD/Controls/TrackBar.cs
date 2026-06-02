@@ -6,7 +6,7 @@ using Blish_HUD.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.Graphics;
 
 namespace Blish_HUD.Controls {
     public class TrackBar : Control {
@@ -19,7 +19,7 @@ namespace Blish_HUD.Controls {
 
         private readonly AsyncTexture2D _textureTrack = AsyncTexture2D.FromAssetId(154968);
 
-        private static readonly TextureRegion2D _textureNub   = Resources.Control.TextureAtlasControl.GetRegion("trackbar/tb-nub");
+        private static readonly Texture2DRegion _textureNub   = Resources.Control.TextureAtlasControl.GetRegion("trackbar/tb-nub");
 
         #endregion
 

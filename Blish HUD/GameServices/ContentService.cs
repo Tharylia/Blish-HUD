@@ -11,6 +11,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
+using MonoGame.Extended;
+using MonoGame.Extended.Content.ContentReaders;
+using MonoGame.Extended.Graphics;
 
 namespace Blish_HUD {
 
@@ -191,8 +194,8 @@ namespace Blish_HUD {
             }
         }
 
-        public MonoGame.Extended.TextureAtlases.TextureAtlas GetTextureAtlas(string textureAtlasName) {
-            return GameService.Content.ContentManager.Load<MonoGame.Extended.TextureAtlases.TextureAtlas>(textureAtlasName);
+        public MonoGame.Extended.Graphics.Texture2DAtlas GetTextureAtlas(string textureAtlasName) {
+            return GameService.Content.ContentManager.Load<MonoGame.Extended.Graphics.Texture2DAtlas>(textureAtlasName);
         }
 
         public void PurgeTextureCache(string textureName) {

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpriteFontPlus;
 using System;
 using System.IO;
+using MonoGame.Extended.BitmapFonts;
 
 namespace Blish_HUD.Modules.Managers {
     public class ContentsManager : IDisposable {
@@ -132,7 +133,7 @@ namespace Blish_HUD.Modules.Managers {
         /// <param name="ranges">The character ranges to use.</param>
         /// <param name="lineHeight">Sets the line height. By default, <see cref="SpriteFont.LineSpacing"/> will be used.</param>
         /// <param name="textureSize">Size of the <see cref="SpriteFont.Texture"/>.<br/>A greater <c>fontSize</c> results in bigger glyphs which may require more texture space.</param>
-        public BitmapFontEx GetBitmapFont(string fontPath, int fontSize, Gw2FontRanges ranges = Gw2FontRanges.Default, int lineHeight = 0, int textureSize = 1392) {
+        public BitmapFont GetBitmapFont(string fontPath, int fontSize, Gw2FontRanges ranges = Gw2FontRanges.Default, int lineHeight = 0, int textureSize = 1392) {
             return GetSpriteFont(fontPath, fontSize, Gw2FontRanges.Default, textureSize)?.ToBitmapFont(lineHeight);
         }
 

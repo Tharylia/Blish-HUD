@@ -5,6 +5,9 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using Flurl.Http;
+using Flurl.Http.Configuration;
+using Flurl.Http.Newtonsoft;
 
 namespace Blish_HUD {
 
@@ -77,6 +80,13 @@ namespace Blish_HUD {
             foreach (var service in GameService.All) {
                 service.DoInitialize(this);
             }
+            
+            //TODO: find better place
+            FlurlHttp.Clients.WithDefaults(builder => {
+                builder.WithSettings(s => {
+                    s.JsonSerializer = new NewtonsoftJsonSerializer();
+                });
+            });
 
             base.Initialize();
         }

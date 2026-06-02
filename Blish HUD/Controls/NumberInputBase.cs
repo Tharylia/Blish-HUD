@@ -239,8 +239,8 @@ namespace Blish_HUD.Controls {
             int charIndex = 0;
 
             BitmapFont.StringGlyphEnumerable glyphs = _font.GetGlyphs(_text);
-            foreach (BitmapFontGlyph glyph in glyphs) {
-                if (textStart + glyph.Position.X + (glyph.FontRegion.Width / 2f) > _horizontalOffset + x) {
+            foreach (BitmapFont.BitmapFontGlyph glyph in glyphs) {
+                if (textStart + glyph.Position.X + (glyph.Character.TextureRegion.Width / 2f) > _horizontalOffset + x) {
                     break;
                 }
 

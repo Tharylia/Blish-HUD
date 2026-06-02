@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -32,7 +33,8 @@ namespace Blish_HUD.Settings {
                 var jObj = JObject.Load(reader);
 
                 string entryTypeString = jObj[SETTINGTYPE_KEY].Value<string>();
-                var    entryType       = Type.GetType(entryTypeString);
+                //var    entryType       = Type.GetType(entryTypeString);
+                var    entryType       = ResolveType(entryTypeString);
 
                 if (entryType == null) {
                     Logger.Warn("Failed to load setting of missing type '{settingDefinedType}'.", entryTypeString);
@@ -46,7 +48,25 @@ namespace Blish_HUD.Settings {
 
                 return entryGeneric as SettingEntry;
             }
+            
+            private static Type? ResolveType(string typeName)
+            {
+                // Try default context first
+                var type = Type.GetType(typeName);
+                if (type != null) return type;
 
+                // Search all loaded assemblies in all contexts
+                foreach (var ctx in AssemblyLoadContext.All)
+                {
+                    foreach (var assembly in ctx.Assemblies)
+                    {
+                        type = assembly.GetType(typeName.Split(',')[0].Trim());
+                        if (type != null) return type;
+                    }
+                }
+
+                return null;
+            }
         }
 
         [JsonIgnore]

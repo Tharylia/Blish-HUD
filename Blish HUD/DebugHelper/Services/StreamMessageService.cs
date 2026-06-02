@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using Blish_HUD.DebugHelper.Models;
 using ProtoBuf;
+using ProtoBuf.Meta;
 
 namespace Blish_HUD.DebugHelper.Services {
 
@@ -45,7 +46,8 @@ namespace Blish_HUD.DebugHelper.Services {
         private void Loop() {
             Message message;
 
-            while (!stopRequested && ((message = Serializer.DeserializeWithLengthPrefix<Message>(inStream, PrefixStyle.Base128, 1)) != null))
+           while (!stopRequested && ((message = Serializer.DeserializeWithLengthPrefix<Message>(inStream, PrefixStyle.Base128, 1)) != null))
+            //while (!stopRequested && ((message = (Message)RuntimeTypeModel.Default.DeserializeWithLengthPrefix(inStream, null, typeof(Message), PrefixStyle.Base128, 1)) != null))
                 if (waitingMessages.TryGetValue(message.Id, out var resetEvent)) {
                     receivedMessages.TryAdd(message.Id, message);
                     resetEvent.Set();

@@ -83,7 +83,7 @@ namespace Blish_HUD.Gw2WebApi {
             } catch (UnexpectedStatusException ex) {
                 if (ex.Response != null) {
                     // <head><title>504 Gateway Time-out</title></head>
-                    if (ex.Response.StatusCode == System.Net.HttpStatusCode.GatewayTimeout || ex.Response.Content.Contains("504")) {
+                    if (ex.Response.StatusCode == System.Net.HttpStatusCode.GatewayTimeout || ex.Response.Content.Message.Contains("504")) {
                         await Task.Delay(1000);
 
                         if (remainingAttempts > 0) {

@@ -3,9 +3,9 @@ using System.ComponentModel;
 using Blish_HUD.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.TextureAtlases;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Blish_HUD._Extensions;
+using MonoGame.Extended.Graphics;
 
 namespace Blish_HUD.Controls {
 
@@ -55,22 +55,22 @@ namespace Blish_HUD.Controls {
         }
 
         // Sprites used on the dye selection panel in game
-        private static readonly TextureRegion2D[] _possibleDrawVariations = new TextureRegion2D[] {
+        private static readonly Texture2DRegion[] _possibleDrawVariations = new Texture2DRegion[] {
             Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_VERSION_ONE_NAME), Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_VERSION_TWO_NAME),
             Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_VERSION_THREE_NAME), Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_VERSION_FOUR_NAME),
         };
 
         // Sprite when square with > 24 size, sprite used in the dye channel of armor in game
-        private static readonly TextureRegion2D _spriteDyeChannel           = Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_DYE_CHANNEL_NAME);
+        private static readonly Texture2DRegion _spriteDyeChannel           = Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_DYE_CHANNEL_NAME);
 
         // Sprite when rectangle with more width than height, texture used in the dye channel of armor, appears when 1 < channels < 4
-        private static readonly TextureRegion2D _spriteDyeChannelX2         = Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_DYE_CHANNEL_X2_NAME);
-        private static readonly TextureRegion2D _spriteDyeChannelX2Vertical = Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_DYE_CHANNEL_X2_VERTICAL_NAME);
+        private static readonly Texture2DRegion _spriteDyeChannelX2         = Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_DYE_CHANNEL_X2_NAME);
+        private static readonly Texture2DRegion _spriteDyeChannelX2Vertical = Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_DYE_CHANNEL_X2_VERTICAL_NAME);
 
         // Sprite for when both width and height > 64, texture used in the dye channel of armor, for 1 channel armor
-        private static readonly TextureRegion2D _spriteDyeChannelX4         = Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_DYE_CHANNEL_X4_NAME);
-        private static readonly TextureRegion2D _spriteHighlight            = Resources.Control.TextureAtlasControl.GetRegion(HIGHLIGHT_NAME);
-        private static readonly TextureRegion2D _spriteHover                = Resources.Control.TextureAtlasControl.GetRegion(HOVER_NAME);
+        private static readonly Texture2DRegion _spriteDyeChannelX4         = Resources.Control.TextureAtlasControl.GetRegion(DRAW_VARIATION_DYE_CHANNEL_X4_NAME);
+        private static readonly Texture2DRegion _spriteHighlight            = Resources.Control.TextureAtlasControl.GetRegion(HIGHLIGHT_NAME);
+        private static readonly Texture2DRegion _spriteHover                = Resources.Control.TextureAtlasControl.GetRegion(HOVER_NAME);
         
         public ColorBox() : base() {
             Size = new Point(DEFAULT_COLOR_SIZE);
@@ -85,7 +85,7 @@ namespace Blish_HUD.Controls {
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds) {
-            TextureRegion2D sprite = _possibleDrawVariations[drawVariation];
+            Texture2DRegion sprite = _possibleDrawVariations[drawVariation];
             if (this.Size.X == this.Size.Y && this.Size.X > 24 && this.Size.X < 64) {
                 sprite = _spriteDyeChannel;
             } else if (this.Size.X > this.Size.Y) {

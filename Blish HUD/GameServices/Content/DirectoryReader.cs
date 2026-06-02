@@ -79,6 +79,10 @@ namespace Blish_HUD.Content {
             Directory.Delete(_directoryPath, true);
         }
 
+        public string[] GetAllFiles() {
+            return Directory.GetFiles(_directoryPath);
+        }
+
         public void Dispose() { /* NOOP */ }
 
     }

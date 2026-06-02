@@ -74,12 +74,12 @@ namespace Blish_HUD.Controls {
             int charIndex = 0;
 
             foreach (var glyph in glyphs) {
-                if (glyph.FontRegion != null
-                    && (glyph.Position.X + glyph.FontRegion.Width / 2f > x)) {
+                if (glyph.Character.TextureRegion != null
+                    && (glyph.Position.X + glyph.Character.TextureRegion.Width / 2f > x)) {
                     break;
                 }
 
-                charIndex += StringUtil.GetUtf16CharCountFromUtf32(glyph.Character);
+                charIndex += StringUtil.GetUtf16CharCountFromUtf32(glyph.Character.Character);
             }
 
             for (int i = 0; i < predictedLine; i++) {

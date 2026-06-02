@@ -1,298 +1,299 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <Platforms>x64</Platforms>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputType>WinExe</OutputType>
-    <LangVersion>8</LangVersion>
-    <RootNamespace>Blish_HUD</RootNamespace>
-    <ApplicationIcon>blishraster2_0dw_icon.ico</ApplicationIcon>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <PublishReadyToRun>false</PublishReadyToRun>
-    <TieredCompilation>false</TieredCompilation>
-    <UseWindowsForms>true</UseWindowsForms>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <Platforms>x64</Platforms>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputType>WinExe</OutputType>
+        <LangVersion>default</LangVersion>
+        <RootNamespace>Blish_HUD</RootNamespace>
+        <ApplicationIcon>blishraster2_0dw_icon.ico</ApplicationIcon>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <TieredCompilation>false</TieredCompilation>
+        <UseWindowsForms>true</UseWindowsForms>
+        <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <Title>Blish HUD</Title>
-    <Product>Blish HUD</Product>
-    <Company>Blish HUD</Company>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Title>Blish HUD</Title>
+        <Product>Blish HUD</Product>
+        <Company>Blish HUD</Company>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageId>BlishHUD</PackageId>
-    <Authors>Blish HUD</Authors>
-    <PackageProjectUrl>https://github.com/blish-hud/Blish-HUD</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/blish-hud/Blish-HUD</RepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-  </PropertyGroup>
+    <PropertyGroup>
+        <PackageId>BlishHUD</PackageId>
+        <Authors>Blish HUD</Authors>
+        <PackageProjectUrl>https://github.com/blish-hud/Blish-HUD</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/blish-hud/Blish-HUD</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(VERSIONED_BUILD)'==''">
-    <AssemblyVersion>0.0.0</AssemblyVersion>
-    <FileVersion>0.0.0</FileVersion>
-    <InformationalVersion>0.0.0-local-dev+0</InformationalVersion>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(VERSIONED_BUILD)'==''">
+        <AssemblyVersion>0.0.0</AssemblyVersion>
+        <FileVersion>0.0.0</FileVersion>
+        <InformationalVersion>0.0.0-local-dev+0</InformationalVersion>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(VERSIONED_BUILD)'!=''">
-    <Version>$(VERSIONED_BUILD)</Version>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(VERSIONED_BUILD)'!=''">
+        <Version>$(VERSIONED_BUILD)</Version>
+        <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+        <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+        <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG;NOMOUSEHOOK;NOKEYBOARDHOOK</DefineConstants>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <DefineConstants>DEBUG;NOMOUSEHOOK;NOKEYBOARDHOOK</DefineConstants>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DefineConstants>WINDOWS</DefineConstants>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DefineConstants>WINDOWS</DefineConstants>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <!-- Make sure that content files are only included through MonoGame and nothing else -->
-    <Compile Remove="Content\**" />
-    <EmbeddedResource Remove="Content\**" />
-    <None Remove="Content\**" />
-    <MonoGameContentReference Include="Content\Content.mgcb" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <!-- Include custom build targets for modules that reference the NuGet package -->
-    <None Include="build\**" Pack="True" PackagePath="build" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Common.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Controls.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Controls.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\ContentService.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentService.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\Contexts\Festivals.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Festivals.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\ContextsService.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContextsService.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\DebugService.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DebugService.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\Debug\ContingencyMessages.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ContingencyMessages.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\GameIntegrationService.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GameIntegrationService.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\GraphicsService.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>GraphicsService.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\Gw2ApiService.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Gw2ApiService.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\InputService.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InputService.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\ModulesService.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModulesService.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\Modules\RepoAndPkgManagement.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>RepoAndPkgManagement.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\OverlayService.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OverlayService.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\GameServices\SettingsService.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SettingsService.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Common.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Common.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Controls.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Controls.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\ContentService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContentService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\ContextsService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContextsService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\Contexts\Festivals.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Festivals.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\DebugService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DebugService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\Debug\ContingencyMessages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContingencyMessages.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\GameIntegrationService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>GameIntegrationService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\GraphicsService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>GraphicsService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\Gw2ApiService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Gw2ApiService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\InputService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>InputService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\ModulesService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ModulesService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\Modules\RepoAndPkgManagement.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>RepoAndPkgManagement.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\OverlayService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>OverlayService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\GameServices\SettingsService.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SettingsService.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\nspector\nspector.csproj" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AsyncClipboardService" Version="[1.7.1]" />
-    <PackageReference Include="DynamicLanguageRuntime" Version="1.3.2" PrivateAssets="all" />
-    <PackageReference Include="EntryPoint" Version="1.3.0" PrivateAssets="all" />
-    <PackageReference Include="Flurl.Http" Version="2.4.2" PrivateAssets="all" />
-    <PackageReference Include="Gapotchenko.FX.Diagnostics.Process" Version="2022.2.7" PrivateAssets="all" />
-    <PackageReference Include="Gw2Sharp" Version="1.7.4" />
-    <PackageReference Include="Humanizer.Core.de" Version="2.6.2" PrivateAssets="all" />
-    <PackageReference Include="Humanizer.Core.es" Version="2.6.2" PrivateAssets="all" />
-    <PackageReference Include="Humanizer.Core.fr" Version="2.6.2" PrivateAssets="all" />
-    <PackageReference Include="JsonSubTypes" Version="1.6.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" PrivateAssets="all" />
-    <PackageReference Include="MonoGame.Extended" Version="[3.8.0]" />
-    <PackageReference Include="MonoGame.Extended.Content.Pipeline" Version="3.8.0" PrivateAssets="all" />
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="[3.8.0.1641]" />
-    <PackageReference Include="NAudio.Wasapi" Version="2.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="[13.0.1]" />
-    <PackageReference Include="NLog" Version="4.6.7" PrivateAssets="all" />
-    <PackageReference Include="SemanticVersioning" Version="1.2.2" PrivateAssets="all" />
-    <PackageReference Include="SpriteFontPlus.MonoGame" Version="0.7.0.22" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1" PrivateAssets="all" />
-    <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
-    <PackageReference Include="protobuf-net" Version="3.0.101" PrivateAssets="all" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="4.9.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="5.7.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; compile; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <Target Name="BuildRef" AfterTargets="Build">
-    <!-- Build ref.dat -->
-    <ZipDirectory SourceDirectory="$(ProjectDir)ref" DestinationFile="$(OutDir)/ref.dat" Overwrite="true" />
-  </Target>
-
-  <Target Name="CleanRef" AfterTargets="Clean">
-    <!-- Clean custom output files -->
-    <Delete Files="$(OutDir)/ref.dat" />
-  </Target>
-
-  <Target Name="AfterBuildContent" AfterTargets="BuildContent">
-    <!-- This will keep MonoGame compiled content files from being included in NuGet packages -->
     <ItemGroup>
-      <Content Update="$(ProjectDir)Content\bin\**" Pack="False" />
+        <!-- Make sure that content files are only included through MonoGame and nothing else -->
+        <Compile Remove="Content\**"/>
+        <EmbeddedResource Remove="Content\**"/>
+        <None Remove="Content\**"/>
+        <MonoGameContentReference Include="Content\Content.mgcb"/>
     </ItemGroup>
-  </Target>
-    
-  <Target Name="CombineLicenses" BeforeTargets="BeforeBuild">
-    <ItemGroup>
-      <LicenseFiles Include="..\LICENSE" Name="Blish HUD" />
-      <LicenseFiles Include="..\thirdparty\nvidiaProfileInspector\LICENSE" Name="nvidiaProfileInspector" />
 
-      <LicenseFileLines Include="%0d%0a%0d%0a%(LicenseFiles.Name)%0d%0a%0d%0a$([System.IO.File]::ReadAllText(%(LicenseFiles.Identity)))" />
+    <ItemGroup>
+        <!-- Include custom build targets for modules that reference the NuGet package -->
+        <None Include="build\**" Pack="True" PackagePath="build"/>
     </ItemGroup>
-      
-    <WriteLinesToFile File="$(BaseIntermediateOutputPath)\ThirdPartySoftware.txt" Lines="@(LicenseFileLines)" Overwrite="true" />
-  </Target>
+
+    <ItemGroup>
+        <Compile Update="Properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\Common.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>Common.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\Controls.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>Controls.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\ContentService.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>ContentService.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\Contexts\Festivals.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>Festivals.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\ContextsService.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>ContextsService.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\DebugService.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>DebugService.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\Debug\ContingencyMessages.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ContingencyMessages.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\GameIntegrationService.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>GameIntegrationService.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\GraphicsService.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>GraphicsService.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\Gw2ApiService.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>Gw2ApiService.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\InputService.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>InputService.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\ModulesService.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>ModulesService.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\Modules\RepoAndPkgManagement.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>RepoAndPkgManagement.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\OverlayService.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>OverlayService.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Strings\GameServices\SettingsService.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>SettingsService.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\Common.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Common.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\Controls.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Controls.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\ContentService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>ContentService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\ContextsService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>ContextsService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\Contexts\Festivals.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Festivals.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\DebugService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>DebugService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\Debug\ContingencyMessages.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>ContingencyMessages.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\GameIntegrationService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>GameIntegrationService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\GraphicsService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>GraphicsService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\Gw2ApiService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Gw2ApiService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\InputService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>InputService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\ModulesService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>ModulesService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\Modules\RepoAndPkgManagement.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>RepoAndPkgManagement.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\OverlayService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>OverlayService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Strings\GameServices\SettingsService.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>SettingsService.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\nspector\nspector.csproj" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AsyncClipboardService" Version="[1.7.1]"/>
+        <PackageReference Include="DynamicLanguageRuntime" Version="1.3.5" PrivateAssets="all"/>
+        <PackageReference Include="EntryPoint" Version="1.3.0" PrivateAssets="all"/>
+        <PackageReference Include="Flurl.Http" Version="4.0.2" PrivateAssets="all"/>
+        <PackageReference Include="Flurl.Http.Newtonsoft" Version="0.9.1" />
+        <PackageReference Include="Gapotchenko.FX.Diagnostics.Process" Version="2026.7.2" PrivateAssets="all"/>
+        <PackageReference Include="Gw2Sharp" Version="2.0.0-preview.1"/>
+        <PackageReference Include="Humanizer.Core.de" Version="3.0.10" PrivateAssets="all"/>
+        <PackageReference Include="Humanizer.Core.es" Version="3.0.10" PrivateAssets="all"/>
+        <PackageReference Include="Humanizer.Core.fr" Version="3.0.10" PrivateAssets="all"/>
+        <PackageReference Include="JsonSubTypes" Version="2.0.1" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="all"/>
+        <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.5-preview.6" PrivateAssets="all"/>
+        <PackageReference Include="MonoGame.Extended" Version="6.0.0"/>
+        <PackageReference Include="MonoGame.Extended.Content.Pipeline" Version="6.0.0" PrivateAssets="all"/>
+        <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.5-preview.6"/>
+        <PackageReference Include="NAudio.Wasapi" Version="2.3.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4"/>
+        <PackageReference Include="NLog" Version="6.1.3" PrivateAssets="all"/>
+        <PackageReference Include="SemanticVersioning" Version="3.0.0" PrivateAssets="all"/>
+        <PackageReference Include="SpriteFontPlus.MonoGame" Version="0.7.0.22"/>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" PrivateAssets="all"/>
+        <PackageReference Include="System.Resources.Extensions" Version="10.0.8"/>
+        <PackageReference Include="protobuf-net" Version="2.4.6" PrivateAssets="all"/>
+        <PackageReference Include="System.ComponentModel.Composition" Version="10.0.8"/>
+        <PackageReference Include="System.ServiceModel.Primitives" Version="10.0.652802"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Costura.Fody" Version="6.2.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; compile; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <Target Name="BuildRef" AfterTargets="Build">
+        <!-- Build ref.dat -->
+        <ZipDirectory SourceDirectory="$(ProjectDir)ref" DestinationFile="$(OutDir)/ref.dat" Overwrite="true"/>
+    </Target>
+
+    <Target Name="CleanRef" AfterTargets="Clean">
+        <!-- Clean custom output files -->
+        <Delete Files="$(OutDir)/ref.dat"/>
+    </Target>
+
+    <Target Name="AfterBuildContent" AfterTargets="BuildContent">
+        <!-- This will keep MonoGame compiled content files from being included in NuGet packages -->
+        <ItemGroup>
+            <Content Update="$(ProjectDir)Content\bin\**" Pack="False"/>
+        </ItemGroup>
+    </Target>
+
+    <Target Name="CombineLicenses" BeforeTargets="BeforeBuild">
+        <ItemGroup>
+            <LicenseFiles Include="..\LICENSE" Name="Blish HUD"/>
+            <LicenseFiles Include="..\thirdparty\nvidiaProfileInspector\LICENSE" Name="nvidiaProfileInspector"/>
+
+            <LicenseFileLines Include="%0d%0a%0d%0a%(LicenseFiles.Name)%0d%0a%0d%0a$([System.IO.File]::ReadAllText(%(LicenseFiles.Identity)))"/>
+        </ItemGroup>
+
+        <WriteLinesToFile File="$(BaseIntermediateOutputPath)\ThirdPartySoftware.txt" Lines="@(LicenseFileLines)" Overwrite="true"/>
+    </Target>
 </Project>

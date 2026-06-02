@@ -216,7 +216,7 @@ namespace Blish_HUD.Controls {
 
         private void OnTextInput(string value) {
             foreach (char c in value) {
-                if (_font.GetCharacterRegion(c) == null) continue;
+                if (_font.GetCharacter(c) == null) continue;
 
                 InputChar(c);
             }
@@ -324,7 +324,7 @@ namespace Blish_HUD.Controls {
         private void InputChar(char value) {
             if (value == NEWLINE) {
                 if (!_multiline) return;
-            } else if (_font.GetCharacterRegion(value) == null) return;
+            } else if (_font.GetCharacter(value) == null) return;
 
             if (_insertMode && _selectionStart == _selectionEnd && _cursorIndex < _text.Length) {
                 _undoStack.MakeReplace(_text, _cursorIndex, 1, 1);

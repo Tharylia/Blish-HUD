@@ -134,7 +134,11 @@ namespace Blish_HUD.Content {
             
             File.Delete(_archivePath);
         }
-        
+
+        public string[] GetAllFiles() {
+            return _archive.Entries.Where(entry => !entry.FullName.Contains("/")).Select(entry => entry.FullName).ToArray();
+        }
+
         public void Dispose() {
             _archive?.Dispose();
         }

@@ -61,8 +61,6 @@ namespace Blish_HUD {
             var logFile = new FileTarget("logfile") {
                 Layout            = $"{STRUCLOG_TIME} | {STRUCLOG_LEVEL} | {STRUCLOG_LOGGER} | {STRUCLOG_MESSAGE}{STRUCLOG_EXCEPTION}",
                 Header            = headerLayout,
-                FileNameKind      = FilePathKind.Absolute,
-                ArchiveFileKind   = FilePathKind.Absolute,
                 FileName          = Path.Combine(logPath, "blishhud.${cached:${date:format=yyyyMMdd-HHmmss}}.log"),
                 MaxArchiveFiles   = MAX_LOG_SESSIONS,
                 ArchiveAboveSize  = MAX_LOG_SIZE,

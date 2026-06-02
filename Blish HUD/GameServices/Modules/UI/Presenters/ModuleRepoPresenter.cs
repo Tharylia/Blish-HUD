@@ -64,7 +64,7 @@ namespace Blish_HUD.Modules.UI.Presenters {
         /// </summary>
         /// <param name="moduleNamespace">The namespace of the module to get the installed version of.</param>
         /// <returns>The currently installed module version or null if module is not installed.</returns>
-        private SemVer.Version GetCurrentModuleVersion(string moduleNamespace) {
+        private SemanticVersioning.Version GetCurrentModuleVersion(string moduleNamespace) {
             return GameService.Module.Modules.FirstOrDefault(m => m.Manifest.Namespace == moduleNamespace)?.Manifest?.Version;  
         }
 

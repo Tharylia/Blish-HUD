@@ -35,14 +35,14 @@ namespace Blish_HUD {
                     continue;
                 }
 
-                var region = font.GetCharacterRegion(c);
+                var region = font.GetCharacter(c);
                 if (region == null)
                     continue;
 
                 // Use XAdvance (logical width) instead of TextureRegion.Width (visual width)
                 currentX += region.XAdvance + font.LetterSpacing;
 
-                if (BitmapFont.UseKernings && i < text.Length - 1) {
+                if (font.UseKernings && i < text.Length - 1) {
                     if (region.Kernings.TryGetValue(text[i + 1], out var kerning)) {
                         currentX += kerning;
                     }

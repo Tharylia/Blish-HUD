@@ -40,11 +40,11 @@ namespace Blish_HUD.Controls {
                 var textSize = GetTextDimensions();
 
                 if (_autoSizeWidth) {
-                    lblRegionWidth = (int)Math.Ceiling(textSize.Width + (_showShadow || _strokeText ? 1 : 0));
+                    lblRegionWidth = (int)Math.Ceiling(textSize.Width + (_showShadow || _strokeText ? 1d : 0d));
                 }
 
                 if (_autoSizeHeight) {
-                    lblRegionHeight = (int)Math.Ceiling(textSize.Height + (_showShadow || _strokeText ? 1 : 0));
+                    lblRegionHeight = (int)Math.Ceiling(textSize.Height + (_showShadow || _strokeText ? 1d : 0d));
                 }
             }
 
@@ -63,7 +63,7 @@ namespace Blish_HUD.Controls {
             }
         }
 
-        protected Size2 GetTextDimensions(string text = null) {
+        protected SizeF GetTextDimensions(string text = null) {
             text = text ?? _text;
 
             if (!_autoSizeWidth && _wrapText) {

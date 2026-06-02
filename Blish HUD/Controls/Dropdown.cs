@@ -4,7 +4,7 @@ using System.Linq;
 using Blish_HUD.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.Graphics;
 
 namespace Blish_HUD.Controls {
     /// <summary>
@@ -180,8 +180,8 @@ namespace Blish_HUD.Controls {
 
         private static readonly Texture2D _textureInputBox = Content.GetTexture("input-box");
 
-        private static readonly TextureRegion2D _textureArrow       = Resources.Control.TextureAtlasControl.GetRegion("inputboxes/dd-arrow");
-        private static readonly TextureRegion2D _textureArrowActive = Resources.Control.TextureAtlasControl.GetRegion("inputboxes/dd-arrow-active");
+        private static readonly Texture2DRegion _textureArrow       = Resources.Control.TextureAtlasControl.GetRegion("inputboxes/dd-arrow");
+        private static readonly Texture2DRegion _textureArrowActive = Resources.Control.TextureAtlasControl.GetRegion("inputboxes/dd-arrow-active");
         
         #endregion
 

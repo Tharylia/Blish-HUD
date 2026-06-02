@@ -3,7 +3,7 @@ using Blish_HUD.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
-using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.Graphics;
 
 namespace Blish_HUD {
 
@@ -71,13 +71,13 @@ namespace Blish_HUD {
                              color * ctrl.AbsoluteOpacity());
         }
 
-        public static void DrawOnCtrl(this SpriteBatch spriteBatch, Control ctrl, TextureRegion2D texture, Rectangle destinationRectangle) {
+        public static void DrawOnCtrl(this SpriteBatch spriteBatch, Control ctrl, Texture2DRegion texture, Rectangle destinationRectangle) {
             spriteBatch.Draw(texture,
                              destinationRectangle.ToBounds(ctrl.AbsoluteBounds),
                              Color.White * ctrl.AbsoluteOpacity());
         }
 
-        public static void DrawOnCtrl(this SpriteBatch spriteBatch, Control ctrl, TextureRegion2D texture, Rectangle destinationRectangle, Color color) {
+        public static void DrawOnCtrl(this SpriteBatch spriteBatch, Control ctrl, Texture2DRegion texture, Rectangle destinationRectangle, Color color) {
             spriteBatch.Draw(texture,
                              destinationRectangle.ToBounds(ctrl.AbsoluteBounds),
                              color * ctrl.AbsoluteOpacity());

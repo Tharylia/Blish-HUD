@@ -5,7 +5,7 @@ using Blish_HUD.Content;
 using Blish_HUD.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.Graphics;
 using Newtonsoft.Json;
 
 namespace Blish_HUD.Controls {
@@ -397,7 +397,7 @@ namespace Blish_HUD.Controls {
             if (!_children.IsEmpty)
                 DrawDropdownArrow(spriteBatch);
 
-            TextureRegion2D firstItemSprite = null;
+            Texture2DRegion firstItemSprite = null;
 
             if (this.CanCheck) {
                 string state = this.Checked ? "-checked" : "-unchecked";
@@ -409,7 +409,7 @@ namespace Blish_HUD.Controls {
                 firstItemSprite = Resources.Checkable.TextureRegionsCheckbox.First(cb => cb.Name == $"checkbox/cb{state}{extension}");
             } else if (this.Icon != null && _children.IsEmpty) {
                 // performance?
-                firstItemSprite = new TextureRegion2D(this.Icon);
+                firstItemSprite = new Texture2DRegion(this.Icon);
             }
 
             // Draw either the checkbox or the icon, if one or the either is available

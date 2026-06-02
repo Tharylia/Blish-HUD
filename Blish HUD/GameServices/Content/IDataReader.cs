@@ -96,6 +96,8 @@ namespace Blish_HUD.Content {
         /// </summary>
         void DeleteRoot();
 
+        string[] GetAllFiles();
+
     }
 
 }

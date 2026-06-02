@@ -4,7 +4,7 @@ using Blish_HUD.Input;
 using Glide;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.Graphics;
 
 namespace Blish_HUD.Controls {
 
@@ -20,13 +20,13 @@ namespace Blish_HUD.Controls {
 
         #region Load Static
 
-        private static readonly TextureRegion2D _textureTrack     = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-track");
-        private static readonly TextureRegion2D _textureUpArrow   = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-arrow-up");
-        private static readonly TextureRegion2D _textureDownArrow = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-arrow-down");
-        private static readonly TextureRegion2D _textureBar       = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-bar-active");
-        private static readonly TextureRegion2D _textureThumb     = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-thumb");
-        private static readonly TextureRegion2D _textureTopCap    = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-cap-top");
-        private static readonly TextureRegion2D _textureBottomCap = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-cap-bottom");
+        private static readonly Texture2DRegion _textureTrack     = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-track");
+        private static readonly Texture2DRegion _textureUpArrow   = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-arrow-up");
+        private static readonly Texture2DRegion _textureDownArrow = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-arrow-down");
+        private static readonly Texture2DRegion _textureBar       = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-bar-active");
+        private static readonly Texture2DRegion _textureThumb     = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-thumb");
+        private static readonly Texture2DRegion _textureTopCap    = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-cap-top");
+        private static readonly Texture2DRegion _textureBottomCap = Resources.Control.TextureAtlasControl.GetRegion("scrollbar/sb-cap-bottom");
         
         #endregion
 
