@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Blish_HUD.Content.Serialization;
 using Blish_HUD.Controls;
 using Blish_HUD.Settings;
@@ -126,7 +127,7 @@ namespace Blish_HUD {
             Logger.Debug("Settings were saved successfully.");
         }
 
-        protected override void Load() { /* NOOP */ }
+        protected override Task LoadAsync() => Task.CompletedTask;
 
         internal SettingCollection RegisterRootSettingCollection(string collectionKey) {
             return this.Settings.AddSubCollection(collectionKey, false);

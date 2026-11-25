@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Blish_HUD {
 
@@ -116,7 +117,7 @@ namespace Blish_HUD {
             }
         }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             Textures.Load();
             var zipArchiveReader = new ZipArchiveReader(RefPath);
             _audioDataReader = zipArchiveReader.GetSubPath("audio");

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Blish_HUD.Controls;
 using Blish_HUD.Entities;
 using Blish_HUD.Graphics;
@@ -455,7 +456,7 @@ namespace Blish_HUD {
             GameService.Debug.StopTimeFunc("Render Queue");
         }
 
-        protected override void Load() { /* NOOP */ }
+        protected override Task LoadAsync() => Task.CompletedTask;
 
         private void Rescale() {
             Point backbufferSize = new Point(

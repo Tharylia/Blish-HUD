@@ -116,7 +116,7 @@ namespace Blish_HUD {
             Chat = new GameChat();
         }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             BlishHud.Instance.Form.Shown += delegate {
                 WindowUtil.SetupOverlay(BlishHud.Instance.FormHandle);
             };

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blish_HUD.GameServices;
 
 namespace Blish_HUD {
@@ -32,7 +33,7 @@ namespace Blish_HUD {
         }
 
         protected abstract void Initialize();
-        protected abstract void Load();
+        protected abstract Task LoadAsync();
         protected abstract void Unload();
         protected abstract void Update(GameTime gameTime);
 
@@ -52,11 +53,11 @@ namespace Blish_HUD {
             Initialize();
         }
 
-        internal void DoLoad() {
-            Load();
+        internal async Task DoLoadAsync() {
+            await LoadAsync();
 
             foreach (var serviceModule in _serviceModules) {
-                serviceModule.Load();
+               await serviceModule.LoadAsync();
             }
 
             this.Loaded = true;

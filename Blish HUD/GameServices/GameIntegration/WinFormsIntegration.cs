@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Blish_HUD.GameServices;
 using Blish_HUD.Properties;
@@ -29,7 +30,7 @@ namespace Blish_HUD.GameIntegration {
 
         internal WinFormsIntegration(GameIntegrationService service) : base(service) { /* NOOP */ }
 
-        public override void Load() {
+        public override async Task LoadAsync() {
             WrapMainForm();
             BuildTrayIcon();
             AutoLaunchGame();

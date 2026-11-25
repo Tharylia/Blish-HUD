@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Blish_HUD {
@@ -14,7 +15,7 @@ namespace Blish_HUD {
             this.Tweener = new Glide.Tweener();
         }
 
-        protected override void Load() { /* NOOP */ }
+        protected override Task LoadAsync() => Task.CompletedTask;
 
         protected override void Unload() { /* NOOP */ }
 

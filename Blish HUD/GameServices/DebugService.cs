@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Blish_HUD.Debug;
 using Blish_HUD.Settings;
@@ -260,7 +261,7 @@ namespace Blish_HUD {
             }
         }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             _funcTimes = new ConcurrentDictionary<string, DebugCounter>();
 
             this.OverlayTexts = new OverlayStrings();

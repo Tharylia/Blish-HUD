@@ -48,7 +48,7 @@ namespace Blish_HUD.Overlay {
 
         internal OverlayUpdateHandler(OverlayService service) : base(service) { /* NOOP */ }
 
-        public override void Load() {
+        public override async Task LoadAsync() {
             DefineOverlayUpdateSettings(GameService.Settings.RegisterRootSettingCollection(UPDATE_SETTINGS));
             BeginLoadReleases(string.Format(DEFAULT_CORERELEASE_URL, Program.OverlayVersion.BaseAndPrerelease()));
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace Blish_HUD.GameServices {
     public abstract class ServiceModule<T> : IServiceModule
@@ -10,7 +11,7 @@ namespace Blish_HUD.GameServices {
             _service = service;
         }
 
-        public virtual void Load() { /* NOOP */ }
+        public virtual Task LoadAsync() => Task.CompletedTask;
 
         public virtual void Update(GameTime gameTime) { /* NOOP */ }
 

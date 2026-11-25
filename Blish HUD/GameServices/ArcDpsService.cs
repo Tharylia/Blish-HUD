@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using Blish_HUD.ArcDps;
 using Blish_HUD.ArcDps.Common;
 using Blish_HUD.ArcDps.Models;
@@ -130,7 +131,7 @@ namespace Blish_HUD {
             }));
         }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             _stopwatch.Start();
             this.SubscribeToCombatEventId((source, combatEvent) => {
                 System.Diagnostics.Debug.WriteLine("");

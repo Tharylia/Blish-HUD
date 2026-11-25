@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Blish_HUD.Debug;
 using Blish_HUD.GameServices;
 using Blish_HUD.Settings;
@@ -71,7 +72,7 @@ namespace Blish_HUD.GameIntegration {
             _deviceEnumerator = new MMDeviceEnumerator();
         }
 
-        public override void Load() {
+        public override async Task LoadAsync() {
             var audioSettings = GameService.Settings.RegisterRootSettingCollection(APPLICATION_SETTINGS);
             _useGameVolume = audioSettings.DefineSetting(USEGAMEVOLUME_SETTINGS, true, 
                                                          () => Strings.GameServices.OverlayService.Setting_UseGameVolume_DisplayName, 

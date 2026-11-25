@@ -1,7 +1,9 @@
-﻿namespace Blish_HUD.GameServices {
+﻿using System.Threading.Tasks;
+
+namespace Blish_HUD.GameServices {
     internal interface IServiceModule : IUpdatable {
 
-        void Load();
+        Task LoadAsync();
 
         void Unload();
 

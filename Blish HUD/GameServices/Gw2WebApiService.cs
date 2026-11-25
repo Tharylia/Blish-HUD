@@ -73,7 +73,7 @@ namespace Blish_HUD {
                              ?? settings.AddSubCollection(SETTINGS_ENTRY_APIKEYS);
         }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             CreateInternalConnection();
 
             Gw2Mumble.PlayerCharacter.NameChanged += PlayerCharacterOnNameChanged;

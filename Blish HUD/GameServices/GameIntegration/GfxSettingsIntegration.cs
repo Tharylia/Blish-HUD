@@ -101,12 +101,12 @@ namespace Blish_HUD.GameIntegration {
 
         internal GfxSettingsIntegration(GameIntegrationService service) : base(service) { /* NOOP */ }
 
-        public override void Load() {
+        public override async Task LoadAsync() {
             _service.Gw2Instance.Gw2Started += Gw2Proc_Gw2Started;
 
             EnableWatchDir();
 
-            Task.Run(LoadGfxSettings);
+            await LoadGfxSettings();
         }
 
         private bool? GetBoolSetting([CallerMemberName] string settingName = null) {

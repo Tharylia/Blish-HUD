@@ -94,11 +94,13 @@ namespace Blish_HUD {
             base.BeginRun();
 
             Logger.Debug("Loading services.");
-
-            // Let all of the game services have a chance to load
-            foreach (var service in GameService.All) {
-                service.DoLoad();
-            }
+            
+            CurrentThreadRunner.RunSync(async () => {
+                // Let all of the game services have a chance to load
+                foreach (var service in GameService.All) {
+                    await service.DoLoadAsync();
+                }
+            }, allowLateContinuations: false);
         }
 
         protected override void UnloadContent() {

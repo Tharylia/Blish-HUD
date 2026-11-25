@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blish_HUD.Contexts;
 using Microsoft.Xna.Framework;
 
@@ -42,7 +43,7 @@ namespace Blish_HUD {
         }
 
         /// <inheritdoc />
-        protected override void Load() { /* NOOP */ }
+        protected override Task LoadAsync() => Task.CompletedTask;
 
         /// <summary>
         /// Registers and then loads an instance of a <see cref="Context"/>.

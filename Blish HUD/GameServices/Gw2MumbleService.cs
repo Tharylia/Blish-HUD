@@ -5,6 +5,7 @@ using Gw2Sharp;
 using Microsoft.Xna.Framework;
 using Gw2Sharp.Mumble;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Blish_HUD {
 
@@ -90,7 +91,7 @@ namespace Blish_HUD {
 
         protected override void Initialize() { /* NOOP */ }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             GameService.GameIntegration.Gw2Instance.Gw2Started += GameIntegrationOnGw2Started;
         }
 

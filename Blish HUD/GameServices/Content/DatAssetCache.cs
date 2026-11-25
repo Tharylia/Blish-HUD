@@ -145,7 +145,7 @@ namespace Blish_HUD.Content {
             }
         }
 
-        public override void Load() {
+        public override async Task LoadAsync() {
             GameService.Debug.OverlayTexts.Add("LoadedAssetTextures", ReportDebug);
         }
 
@@ -219,7 +219,7 @@ namespace Blish_HUD.Content {
             return File.Exists(texturePath);
         }
 
-        private AsyncTexture2D LoadTexture(int assetId, TextureReference textureReference) {
+        private async Task<AsyncTexture2D> LoadTextureAsync(int assetId, TextureReference textureReference) {
             var texture = new AsyncTexture2D(_transparentTextures[textureReference.SizeReference]);
 
             bool locallyCached = TryGetLocalTexturePath(assetId, out string localTexture);
@@ -245,7 +245,7 @@ namespace Blish_HUD.Content {
                         _retryTokens--;
                         await Task.Delay(RETRY_DELAY);
 
-                        LoadTextureFromServ(localTexture, assetId).ContinueWith(HandleResponse);
+                        await LoadTextureFromServ(localTexture, assetId).ContinueWith(HandleResponse);
                         return;
                     }
                 }
@@ -254,9 +254,9 @@ namespace Blish_HUD.Content {
             }
 
             if (locallyCached) {
-                LoadTextureFromFileSystem(localTexture).ContinueWith(HandleResponse);
+                await LoadTextureFromFileSystem(localTexture).ContinueWith(HandleResponse);
             } else {
-                LoadTextureFromServ(localTexture, assetId).ContinueWith(HandleResponse);
+                await LoadTextureFromServ(localTexture, assetId).ContinueWith(HandleResponse);
             }
 
             return texture;
@@ -272,9 +272,11 @@ namespace Blish_HUD.Content {
                     AsyncTexture2D texture = null;
 
                     if (textureReference.Texture == null) {
-                        textureReference.Texture = new WeakReference<AsyncTexture2D>(texture = LoadTexture(assetId, textureReference));
+                        texture = CurrentThreadRunner.RunSync(async () => await LoadTextureAsync(assetId, textureReference), false);
+                        textureReference.Texture = new WeakReference<AsyncTexture2D>(texture);
                     } else if (!textureReference.Texture.TryGetTarget(out texture) || texture.Texture.IsDisposed) {
-                        textureReference.Texture.SetTarget(texture = LoadTexture(assetId, textureReference));
+                        texture = CurrentThreadRunner.RunSync(async () => await LoadTextureAsync(assetId, textureReference), false);
+                        textureReference.Texture.SetTarget(texture);
                     }
 
                     return texture;

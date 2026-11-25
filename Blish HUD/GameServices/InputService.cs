@@ -1,4 +1,5 @@
-﻿using Blish_HUD.Input;
+﻿using System.Threading.Tasks;
+using Blish_HUD.Input;
 using Microsoft.Xna.Framework;
 
 namespace Blish_HUD {
@@ -52,7 +53,7 @@ namespace Blish_HUD {
 
         protected override void Initialize() { /* NOOP */ }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             _hookManager.Load();
             GameIntegration.Gw2Instance.Gw2AcquiredFocus += (s, e) => EnableHooks();
             GameIntegration.Gw2Instance.Gw2LostFocus     += (s, e) => DisableHooks();

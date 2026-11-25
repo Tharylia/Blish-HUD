@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Graphics.UI;
@@ -277,7 +278,7 @@ namespace Blish_HUD {
             return RegisterModule(new DirectoryReader(moduleDir));
         }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             RegisterModulesInSettings();
 
             if (ApplicationSettings.Instance.DebugEnabled) {

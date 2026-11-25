@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Blish_HUD.Content;
 using Blish_HUD.Contexts;
 using Blish_HUD.Controls;
@@ -319,7 +320,7 @@ namespace Blish_HUD {
             }
         }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             SotoFix();
             BuildMainWindow();
             BuildCornerIcon();

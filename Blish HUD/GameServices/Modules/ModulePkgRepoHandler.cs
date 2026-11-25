@@ -56,12 +56,12 @@ namespace Blish_HUD.Modules {
 
         internal ModulePkgRepoHandler(ModuleService service) : base(service) { /* NOOP */ }
         
-        public override void Load() {
+        public override async Task LoadAsync() {
             DefineModuleRepoSettings(GameService.Settings.RegisterRootSettingCollection(REPO_SETTINGS));
             _defaultRepoProvider = new StaticPkgRepoProvider(_defaultRepoUrlSetting.Value);
             _repos.Add(_defaultRepoProvider);
 
-            RegisterRepoManagementInSettingsUi();
+            await RegisterRepoManagementInSettingsUi();
         }
 
         private void DefineModuleRepoSettings(SettingCollection settingCollection) {
@@ -70,13 +70,13 @@ namespace Blish_HUD.Modules {
             _acknowledgedUpdates = settingCollection.AddSubCollection(ACKNOWLEDGED_UPDATES_SETTING);
         }
 
-        private void RegisterRepoManagementInSettingsUi() {
+        private async Task RegisterRepoManagementInSettingsUi() {
             _repoMenuItem = new MenuItem(Strings.GameServices.Modules.RepoAndPkgManagement.PkgRepoSection, GameService.Content.GetTexture(TEXTUREREF_REPOMENU));
 
             GameService.Overlay.SettingsTab.RegisterSettingMenu(_repoMenuItem, GetRepoView, int.MaxValue - 11);
 
             // TODO: Check all repos
-            _defaultRepoProvider.Load(null).ContinueWith(RepoResultsLoaded);
+            await _defaultRepoProvider.Load(null).ContinueWith(RepoResultsLoaded);
         }
 
         private View GetRepoView(MenuItem repoMenuItem) {

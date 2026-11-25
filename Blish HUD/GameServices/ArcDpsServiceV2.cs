@@ -96,7 +96,7 @@ namespace Blish_HUD {
             _stopwatch = new Stopwatch();
         }
 
-        protected override void Load() {
+        protected override async Task LoadAsync() {
             Gw2Mumble.Info.ProcessIdChanged += Start;
             _stopwatch.Start();
         }

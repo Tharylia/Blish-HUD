@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Blish_HUD.Contexts;
 using Blish_HUD.GameServices;
 
@@ -11,7 +12,7 @@ namespace Blish_HUD.GameIntegration {
 
         internal ClientTypeIntegration(GameIntegrationService service) : base(service) { /* NOOP */ }
 
-        public override void Load() {
+        public override async Task LoadAsync() {
             GameService.Gw2Mumble.Info.BuildIdChanged += delegate { DetectClientType(); };
 
             GameService.Contexts.GetContext<CdnInfoContext>().StateChanged += OnCdnInfoContextStateChanged;

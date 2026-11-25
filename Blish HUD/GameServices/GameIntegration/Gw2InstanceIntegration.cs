@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Security.AccessControl;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Blish_HUD.GameIntegration.Gw2Instance;
 using Blish_HUD.GameServices;
@@ -156,7 +157,7 @@ namespace Blish_HUD.GameIntegration {
 
         public Gw2InstanceIntegration(GameIntegrationService service) : base(service) { /* NOOP */ }
 
-        public override void Load() {
+        public override async Task LoadAsync() {
             DefineSettings(_service.ServiceSettings.AddSubCollection(nameof(Gw2InstanceIntegration)));
 
             GameService.Gw2Mumble.Info.IsGameFocusedChanged += OnGameFocusChanged;
